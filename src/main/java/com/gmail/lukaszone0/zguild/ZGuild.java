@@ -3,8 +3,13 @@ package com.gmail.lukaszone0.zguild;
 import com.gmail.lukaszone0.zguild.managers.ConfigManager;
 import com.gmail.lukaszone0.zguild.managers.GuildManager;
 import com.gmail.lukaszone0.zguild.managers.PlayerManager;
+import com.gmail.lukaszone0.zguild.listeners.*;
 import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -22,6 +27,30 @@ public class ZGuild extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+
+        getCommand("g").setExecutor(new CommandHandler());
+        getCommand("gildia").setExecutor(new CommandHandler());
+        getCommand("guild").setExecutor(new CommandHandler());
+
+        PluginManager pm = Bukkit.getPluginManager();
+
+        pm.addPermission(new Permission("guild.create"));
+        pm.addPermission(new Permission("guild.list"));
+        pm.addPermission(new Permission("guild.delete"));
+        pm.addPermission(new Permission("guild.add"));
+        pm.addPermission(new Permission("guild.kick"));
+        pm.addPermission(new Permission("guild.leave"));
+        pm.addPermission(new Permission("guild.sethome"));
+        pm.addPermission(new Permission("guild.delhome"));
+        pm.addPermission(new Permission("guild.addoficer"));
+        pm.addPermission(new Permission("guild.removeoficer"));
+        pm.addPermission(new Permission("guild.king"));
+        pm.addPermission(new Permission("guild.pay"));
+
+        getServer().getPluginManager().registerEvents(new Join(), this);
+        getServer().getPluginManager().registerEvents(new Quit(), this);
+
+        saveDefaultConfig();
 
         setup();
     }
