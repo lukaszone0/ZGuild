@@ -61,6 +61,6 @@ public class GuildManager {
         }
     }
     public boolean guildExist(String name){
-        return guildsDB.containsKey(name);
+        return guildsDB.containsKey(name.toUpperCase());
     }
 }
