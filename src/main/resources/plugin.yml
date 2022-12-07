@@ -1,6 +1,6 @@
 name: ZGuild
 version: '${project.version}'
-main: com.gmail.lukaszone.zguild.ZGuild
+main: com.gmail.lukaszone0.zguild.ZGuild
 api-version: 1.19
 authors: [ lukaszone0 ]
 commands:

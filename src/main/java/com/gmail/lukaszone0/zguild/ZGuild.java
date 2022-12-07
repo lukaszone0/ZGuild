@@ -12,8 +12,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 public class ZGuild extends JavaPlugin implements Listener {
     public static ZGuild instance;
     public static String prefix;
