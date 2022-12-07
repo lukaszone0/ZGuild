@@ -62,14 +62,21 @@ public class CommandHandler implements CommandExecutor {
                     p.sendMessage(prefix + "TODO HELP");
                     break;
                 case "list":
+                    if(ZGuild.GM.guildsCount() > 0) {
                         ZGuild.GM.maketoplist();
-                        for(IGuild g : ZGuild.GM.listTop()){
-                            p.sendMessage(prefix + "-----------[" + ChatColor.GREEN + "TOP 5 GILLDI" + ChatColor.GRAY + "]-----------");
-                            p.sendMessage("#1. " + ChatColor.WHITE + g.name);
-                            p.sendMessage("" + ChatColor.GREEN + g.king);
-                            p.sendMessage("" + ChatColor.GOLD + g.money);
-                            p.sendMessage("" + ChatColor.AQUA + g.members.size());
+                        p.sendMessage("-----------[" + ChatColor.GREEN + "TOP 5 GILDI" + ChatColor.GRAY + "]-----------");
+                        for (IGuild g : ZGuild.GM.listTop()) {
+
+                            p.sendMessage("--------------[ #1 ]--------------");
+                            p.sendMessage("-----------[ Nazwa: " + ChatColor.WHITE + g.name + ChatColor.GRAY + " ]-----------");
+                            p.sendMessage("-----------[ Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + " ]-----------");
+                            p.sendMessage("-----------[ Złoto: " + ChatColor.GOLD + g.money + ChatColor.GRAY + " ]-----------");
+                            p.sendMessage("-----------[ Członkowie: " + ChatColor.AQUA + g.members.size() + ChatColor.GRAY + " ]-----------");
                         }
+                    }
+                    else{
+                        p.sendMessage(prefix + "Brak gildi na serwerze.");
+                    }
                     break;
                 case "info":
                     if(!playerdata.haveguild){
@@ -160,28 +167,23 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
-                    IPlayer inpl = ZGuild.PM.get(arg2);
-                    if(!inpl.isonline){
-                        p.sendMessage(prefix + "Ten gracz jest offline.");
-                        break;
-                    }
-
-                    inpl.invites.add(playerguild.name);
+                    ZGuild.PM.get(arg2).invites.add(playerguild.name);
                     ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + ChatColor.WHITE + playerguild.name);
                     ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g join " + playerguild.name);
                     p.sendMessage(prefix + "Zaproszenie zostało wysłane.");
 
                     break;
                 case "invitelist":
-
-                    for(String g : playerdata.invites){
-                        p.sendMessage(prefix + "Zaproszenie od: " + g);
+                    if(playerdata.invites.size() >0) {
+                        p.sendMessage("-------[LISTA ZAPROSZEŃ]-------");
+                        for (String g : playerdata.invites) {
+                            p.sendMessage("Zostałeś zaproszony do gildi: " + g);
+                        }
+                        break;
                     }
-
                     if(playerdata.invites.size() == 0){
                         p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
-
                     break;
                 case "join":
                     if(playerdata.haveguild){
@@ -194,6 +196,8 @@ public class CommandHandler implements CommandExecutor {
                         ZGuild.PM.get(playername).haveguild = true;
                         ZGuild.PM.get(playername).invites.clear();
                         p.sendMessage(prefix + "Dołączyłeś do gildi " + ChatColor.WHITE + arg2 + ".");
+                        ZGuild.GM.get(arg2).members.add(playername);
+                        Bukkit.getPlayer(ZGuild.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
                     }
                     else {
                         p.sendMessage(prefix + "Nie znaleziono takiego zaproszenia.");

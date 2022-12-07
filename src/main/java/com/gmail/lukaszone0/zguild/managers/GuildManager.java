@@ -20,6 +20,9 @@ public class GuildManager {
         }
         return guilds;
     }
+    public int guildsCount(){
+        return guildsDB.size();
+    }
     public void maketoplist(){
         Map<Integer, String> guilds = new HashMap<>();
 
