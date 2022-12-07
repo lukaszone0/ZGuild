@@ -1,0 +1,9 @@
+name: ZGuild
+version: '${project.version}'
+main: com.gmail.lukaszone.zguild.ZGuild
+api-version: 1.19
+authors: [ lukaszone0 ]
+commands:
+  guild:
+    description: ""
+    aliases: [g, gildia, guild]

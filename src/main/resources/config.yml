@@ -1,0 +1,45 @@
+plugin_prefix: "[GILDIA]"
+#
+#   GUILD NAME SETTINGS
+#
+guild_name_min: 4
+guild_name_max: 10
+guild_name_banned:
+  - "kurwa"
+  - "huj"
+  - "huje"
+  - "pizda"
+  - "pizdy"
+  - "cipa"
+  - "cipy"
+  - "gowno"
+  - "jebany"
+  - "pierdole"
+  - "pierdolic"
+#
+#
+#
+#
+#   GUILD SLOT SETTINGS
+#
+guild_slot_start: 10
+guild_slot_max: 100
+guild_slot_cost: 1000
+#
+#
+#
+#
+#   GUILD ECONOMY SETTINGS
+#
+guild_create_cost: 100
+guild_gold_start: 0
+guild_gold_max: 100000000
+#
+#
+#
+#   GUILD HOME SETTINGS
+#
+guild_home_size: 25 #25x25
+#
+#
+#
