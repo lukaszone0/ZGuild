@@ -94,8 +94,8 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Ta nazwa gildi nie jest dostępna.");
                         break;
                     }
-                    if(arg2.length() < ZGuild.config.getInt("guildnamemin") || arg2.length() > ZGuild.config.getInt("guildnamemax")){
-                        p.sendMessage(prefix + "Nazwa gildi musi zawierać od " + ChatColor.YELLOW + ZGuild.config.getInt("guildnamemin") + ChatColor.GRAY + " do " + ChatColor.YELLOW + ZGuild.config.getInt("guildnamemax") + ChatColor.GRAY + " znaków.");
+                    if(arg2.length() < ZGuild.config.getInt("guild_name_min") || arg2.length() > ZGuild.config.getInt("guild_name_max")){
+                        p.sendMessage(prefix + "Nazwa gildi musi zawierać od " + ChatColor.YELLOW + ZGuild.config.getInt("guild_name_min") + ChatColor.GRAY + " do " + ChatColor.YELLOW + ZGuild.config.getInt("guild_name_max") + ChatColor.GRAY + " znaków.");
                         break;
                     }
 
@@ -119,7 +119,8 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     IGuild newguild = new IGuild(arg2, playername);
-
+                    newguild.gold = ZGuild.config.getInt("guild_money_start");
+                    newguild.slot = ZGuild.config.getInt("guild_slot_start");
                     ZGuild.GM.addGuild(newguild);
                     ZGuild.PM.get(playername).guildname = arg2;
                     ZGuild.PM.get(playername).haveguild = true;
@@ -163,10 +164,14 @@ public class CommandHandler implements CommandExecutor {
                     p.sendMessage(prefix + "Zaproszenie zostało wysłane.");
 
                     break;
-                case "listinvites":
+                case "invitelist":
 
                     for(String g : playerdata.invites){
                         p.sendMessage(prefix + "Zaproszenie od: " + g);
+                    }
+
+                    if(playerdata.invites.size() == 0){
+                        p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
 
                     break;

@@ -8,6 +8,9 @@ import java.util.Map;
 public class GuildManager {
     private final Map<String, IGuild> guildsDB = new HashMap<>();
 
+    public GuildManager(){
+
+    }
     public IGuild get(String name){
         if(guildsDB.containsKey(name)){
             return guildsDB.get(name);

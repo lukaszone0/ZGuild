@@ -32,8 +32,8 @@ guild_slot_cost: 1000
 #   GUILD ECONOMY SETTINGS
 #
 guild_create_cost: 100
-guild_gold_start: 0
-guild_gold_max: 100000000
+guild_money_start: 0
+guild_money_max: 100000000
 #
 #
 #
