@@ -62,6 +62,14 @@ public class CommandHandler implements CommandExecutor {
                     p.sendMessage(prefix + "TODO HELP");
                     break;
                 case "list":
+                        ZGuild.GM.maketoplist();
+                        for(IGuild g : ZGuild.GM.listTop()){
+                            p.sendMessage(prefix + "-----------[" + ChatColor.GREEN + "TOP 5 GILLDI" + ChatColor.GRAY + "]-----------");
+                            p.sendMessage("#1. " + ChatColor.WHITE + g.name);
+                            p.sendMessage("" + ChatColor.GREEN + g.king);
+                            p.sendMessage("" + ChatColor.GOLD + g.money);
+                            p.sendMessage("" + ChatColor.AQUA + g.members.size());
+                        }
                     break;
                 case "info":
                     if(!playerdata.haveguild){
@@ -119,7 +127,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     IGuild newguild = new IGuild(arg2, playername);
-                    newguild.gold = ZGuild.config.getInt("guild_money_start");
+                    newguild.money = ZGuild.config.getInt("guild_money_start");
                     newguild.slot = ZGuild.config.getInt("guild_slot_start");
                     ZGuild.GM.addGuild(newguild);
                     ZGuild.PM.get(playername).guildname = arg2;

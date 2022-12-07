@@ -8,4 +8,5 @@ public class IPlayer {
     public boolean haveguild = false;
     public boolean isonline = false;
     public List<String> invites = new ArrayList<>();
+
 }

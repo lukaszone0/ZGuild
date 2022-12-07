@@ -2,14 +2,42 @@ package com.gmail.lukaszone0.zguild.managers;
 
 import com.gmail.lukaszone0.zguild.interfaces.IGuild;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GuildManager {
     private final Map<String, IGuild> guildsDB = new HashMap<>();
+    private final IGuild[] guildsTop = new IGuild[5];
 
     public GuildManager(){
+        //todo load guilds from file HERE
+    }
+    public IGuild[] list(){
+        IGuild[] guilds = new IGuild[guildsDB.size()];
+        int i = 0;
+        for(IGuild g : guildsDB.values()){
+            guilds[i] = g;
+            i++;
+        }
+        return guilds;
+    }
+    public void maketoplist(){
+        Map<Integer, String> guilds = new HashMap<>();
 
+        for(IGuild g : guildsDB.values()){
+            guilds.put(g.members.size(), g.name);
+        }
+        List<IGuild> guldbymembers = new ArrayList<>(guildsDB.values());
+        Collections.sort(guldbymembers, Comparator.comparing(IGuild::getSize));
+        int i =0;
+        for (IGuild p : guldbymembers) {
+            if(i < 5){
+                guildsTop[i] = p;
+                i++;
+            }
+        }
+    }
+    public IGuild[] listTop(){
+        return guildsTop;
     }
     public IGuild get(String name){
         if(guildsDB.containsKey(name)){

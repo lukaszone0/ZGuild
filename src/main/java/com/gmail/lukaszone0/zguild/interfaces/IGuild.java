@@ -12,11 +12,15 @@ public class IGuild {
     public List<String> members = new ArrayList<>();
     public long homex = 0;
     public long homey = 0;
-    public int gold = 0;
+    public int money = 0;
     public int slot = 10;
 
     public IGuild(String name, String kingname){
         this.name = name;
         this.king = kingname;
+    }
+
+    public int getSize(){
+        return this.members.size();
     }
 }
