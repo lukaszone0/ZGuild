@@ -38,13 +38,14 @@ public class ZGuild extends JavaPlugin implements Listener {
         pm.addPermission(new Permission("guild.usun"));
         pm.addPermission(new Permission("guild.zapros"));
         pm.addPermission(new Permission("guild.zaproszenia"));
+        pm.addPermission(new Permission("guild.anulujzapro"));
         pm.addPermission(new Permission("guild.akceptuj"));
         pm.addPermission(new Permission("guild.wyrzuc"));
         pm.addPermission(new Permission("guild.opusc"));
         pm.addPermission(new Permission("guild.ustawdom"));
         pm.addPermission(new Permission("guild.usundom"));
-        pm.addPermission(new Permission("guild.dajoficera"));
-        pm.addPermission(new Permission("guild.usunoficera"));
+        pm.addPermission(new Permission("guild.awansuj"));
+        pm.addPermission(new Permission("guild.degraduj"));
         pm.addPermission(new Permission("guild.nowyprzywodca"));
         pm.addPermission(new Permission("guild.wplac"));
 

@@ -4,10 +4,14 @@ import com.gmail.lukaszone0.zguild.interfaces.IGuild;
 import com.gmail.lukaszone0.zguild.interfaces.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CommandHandler implements CommandExecutor {
 
@@ -78,6 +82,25 @@ public class CommandHandler implements CommandExecutor {
                 default:
                 case "help":
                     p.sendMessage(prefix + "TODO HELP");
+                    break;
+                case "kolortest":
+
+                    Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RED +  "GUI");
+                    ItemStack survival = new ItemStack(Material.DIAMOND_BLOCK);
+                    ItemMeta survivalMeta = survival.getItemMeta();
+                    ItemStack creative = new ItemStack(Material.REDSTONE_BLOCK);
+                    ItemMeta creativeMeta = creative.getItemMeta();
+
+                    survivalMeta.setDisplayName("Survival");
+                    survival.setItemMeta(survivalMeta);
+                    creativeMeta.setDisplayName("Creative");
+                    creative.setItemMeta(creativeMeta);
+
+                    inv.setItem(3, survival);
+                    inv.setItem(5, creative);
+
+                    p.openInventory(inv);
+
                     break;
                 case "kolor":
                     if(!playerhaveguild){
@@ -238,13 +261,13 @@ public class CommandHandler implements CommandExecutor {
 
                     if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
                         ZGuild.PM.get(arg2).invites.add(playerguild.name);
-                        p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + "zostało wysłane.");
+                        p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " zostało wysłane.");
                         ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + guildcolor + playerguild.name);
                         ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g akceptuj " + playerguild.name.toLowerCase());
                     }
 
                     break;
-                case "anulujzaproszenie":
+                case "anulujzapro":
 
                     if(!playerhaveguild){
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
@@ -281,11 +304,11 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
 
-                    p.sendMessage(ChatColor.DARK_GRAY + "--------[LISTA ZAPROSZEŃ]--------");
+                    p.sendMessage(ChatColor.DARK_GRAY + "[--------[LISTA ZAPROSZEŃ]--------]");
                     for (String g : playerdata.invites) {
                         p.sendMessage(ChatColor.DARK_GRAY + "Zaprasza cię gildia: " + ChatColor.WHITE + "" + g);
                     }
-                    p.sendMessage(ChatColor.DARK_GRAY + "--------[LISTA ZAPROSZEŃ]--------");
+                    p.sendMessage(ChatColor.DARK_GRAY + "[---------------------------------]");
 
                     break;
                 case "akceptuj":
