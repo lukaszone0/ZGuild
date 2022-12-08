@@ -74,8 +74,8 @@ public class CommandHandler implements CommandExecutor {
             }
             ChatColor guildcolor = ChatColor.WHITE;
 
-            guildcolor = ZGuild.GM.getColor(playerguild.color);
-
+            //guildcolor = ZGuild.GM.getColor(playerguild.color);
+            guildcolor = ChatColor.GREEN;
 
 
             switch(arg1.toLowerCase()) {
@@ -332,7 +332,7 @@ public class CommandHandler implements CommandExecutor {
                     }
                     ZGuild.PM.get(playername).guild = arg2.toUpperCase();
                     ZGuild.PM.get(playername).invites.clear();
-                    p.sendMessage(prefix + "Dołączyłeś do gildi " + guildcolor + arg2.toUpperCase());
+                    p.sendMessage(prefix + "Dołączyłeś do gildi " + ZGuild.GM.getColor(ZGuild.GM.get(arg2.toUpperCase()).color) + arg2.toUpperCase());
                     ZGuild.GM.get(arg2).members.add(playername);
                     Bukkit.getPlayer(ZGuild.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
 
@@ -397,6 +397,7 @@ public class CommandHandler implements CommandExecutor {
 
                     if(playerguild.members.contains(arg2)){
                         ZGuild.GM.get(playerdata.guild).members.remove(arg2);
+                        ZGuild.PM.get(arg2).guild = "";
                         p.sendMessage(prefix + "Gracz " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " został wyrzucowny z gildi");
                         kpl.sendMessage(prefix + "Zostałeś wyrzucony z gildi przez " + ChatColor.WHITE + playername);
                     }

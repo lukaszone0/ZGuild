@@ -1,16 +1,49 @@
 package com.gmail.lukaszone0.zguild.managers;
 
 import com.gmail.lukaszone0.zguild.interfaces.IGuild;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-public class GuildManager {
+public class GuildManager extends YamlConfiguration {
     private final Map<String, IGuild> guildsDB = new HashMap<>();
     private final IGuild[] guildsTop = new IGuild[5];
 
     public GuildManager(){
+        File path = new File("/guilds");
         //todo load guilds from file HERE
+        for (final File fileEntry : path.listFiles()) {
+            if (!fileEntry.isDirectory()) {
+                YamlConfiguration guild = new YamlConfiguration();
+                try {
+                    guild.load(fileEntry);
+                    IGuild newg = new IGuild(guild.get("name").toString(), guild.get("king").toString());
+
+                }
+                catch (InvalidConfigurationException | IOException e){
+                    Bukkit.getLogger().info("Cant read guild in guilds folder..");
+                }
+            }
+        }
+    }
+
+    public void saveGuilds(){
+        for(IGuild g : guildsDB.values()){
+            File path = new File("/guilds" + g.name.toLowerCase() + ".yml");
+            YamlConfiguration guild = new YamlConfiguration();
+            guild.set("/guilds", g);
+            try {
+                guild.save(path);
+            }
+            catch (IOException e){
+                Bukkit.getLogger().info("Cant save guild: " + g.name);
+            }
+        }
     }
 
     public int guildsCount(){
@@ -67,55 +100,7 @@ public class GuildManager {
 
         return temp;
     }
-    public ChatColor getColor(String colorstring){
-        ChatColor guildcolor = ChatColor.WHITE;
 
-        switch(colorstring.toUpperCase()){
-            case "RED":
-                guildcolor = ChatColor.RED;
-                break;
-            case "DARK_RED":
-                guildcolor = ChatColor.DARK_RED;
-                break;
-            case "DARK_PURPLE":
-                guildcolor = ChatColor.DARK_PURPLE;
-                break;
-            case "LIGHT_PURPLE":
-                guildcolor = ChatColor.LIGHT_PURPLE;
-                break;
-            case "AQUA":
-                guildcolor = ChatColor.AQUA;
-                break;
-            case "DARK_AQUA":
-                guildcolor = ChatColor.DARK_AQUA;
-                break;
-            case "BLUE":
-                guildcolor = ChatColor.BLUE;
-                break;
-            case "DARK_BLUE":
-                guildcolor = ChatColor.DARK_BLUE;
-                break;
-            case "GRAY":
-                guildcolor = ChatColor.GRAY;
-                break;
-            case "DARK_GRAY":
-                guildcolor = ChatColor.DARK_GRAY;
-                break;
-            case "GREEN":
-                guildcolor = ChatColor.GREEN;
-                break;
-            case "DARK_GREEN":
-                guildcolor = ChatColor.DARK_GREEN;
-                break;
-            case "YELLOW":
-                guildcolor = ChatColor.YELLOW;
-                break;
-            case "GOLD":
-                guildcolor = ChatColor.GOLD;
-                break;
-        }
-        return guildcolor;
-    }
     public boolean colorCorrect(String colorstring){
 
         switch(colorstring.toUpperCase()){

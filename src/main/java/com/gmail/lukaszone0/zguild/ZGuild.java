@@ -15,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ZGuild extends JavaPlugin implements Listener {
     public static ZGuild instance;
     public static String prefix;
-
     public static PlayerManager PM = new PlayerManager();
     public static GuildManager GM = new GuildManager();
 
@@ -61,6 +60,7 @@ public class ZGuild extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        GM.saveGuilds();
     }
 
     public void setup(){

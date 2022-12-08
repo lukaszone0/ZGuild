@@ -31,13 +31,16 @@ public class onChat implements Listener {
         if(!playerdata.guild.isBlank()){
             playerhaveguild = true;
         }
-        ChatColor guildcolor = ChatColor.WHITE;
+        ChatColor guildcolor = ChatColor.GREEN;
 
-        guildcolor = ZGuild.GM.getColor(playerguild.color);
+        //guildcolor = ZGuild.GM.getColor(playerguild.color);
 
         if(playerhaveguild) {
             //e.setMessage(message);
-            e.setFormat(ChatColor.DARK_GRAY + "[" + guildcolor + playerguild.name + ChatColor.DARK_GRAY + "] " + e.getPlayer().getName() + ": " + e.getMessage());
+            e.setFormat(ChatColor.DARK_GRAY + "[" + guildcolor + playerguild.name + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + e.getPlayer().getName() + ": " + e.getMessage());
+        }
+        else{
+            e.setFormat(ChatColor.RESET + e.getPlayer().getName() + ": " + e.getMessage());
         }
     }
 }
