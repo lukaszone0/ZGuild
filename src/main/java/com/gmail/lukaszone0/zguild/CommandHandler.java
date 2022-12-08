@@ -194,11 +194,12 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
-                    p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + "zostało wysłane.");
-
-                    ZGuild.PM.get(arg2).invites.add(playerguild.name);
-                    ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + ChatColor.WHITE + playerguild.name);
-                    ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g join " + playerguild.name);
+                    if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
+                        ZGuild.PM.get(arg2).invites.add(playerguild.name);
+                        p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + "zostało wysłane.");
+                        ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + ChatColor.WHITE + playerguild.name);
+                        ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g akceptuj " + playerguild.name);
+                    }
 
                     break;
                 case "zaproszenia":
