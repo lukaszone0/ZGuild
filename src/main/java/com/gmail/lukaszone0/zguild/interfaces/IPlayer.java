@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IPlayer {
-    public String guildname = "";
+    public String guild = "";
     public String realname = "";
-    public boolean haveguild = false;
     public List<String> invites = new ArrayList<>();
 
     public IPlayer(String realname){
