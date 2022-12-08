@@ -49,8 +49,9 @@ public class ZGuild extends JavaPlugin implements Listener {
         pm.addPermission(new Permission("guild.nowyprzywodca"));
         pm.addPermission(new Permission("guild.wplac"));
 
-        getServer().getPluginManager().registerEvents(new Join(), this);
-        getServer().getPluginManager().registerEvents(new Quit(), this);
+        getServer().getPluginManager().registerEvents(new onJoin(), this);
+        getServer().getPluginManager().registerEvents(new onQuit(), this);
+        getServer().getPluginManager().registerEvents(new onChat(), this);
 
         saveDefaultConfig();
 

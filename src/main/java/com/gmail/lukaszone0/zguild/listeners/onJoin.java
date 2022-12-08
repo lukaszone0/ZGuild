@@ -1,15 +1,17 @@
 package com.gmail.lukaszone0.zguild.listeners;
 
 import com.gmail.lukaszone0.zguild.ZGuild;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public class Quit implements Listener {
+public class onJoin implements Listener {
+
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
-        ZGuild.PM.quitPlayer(p.getName());
+        ZGuild.PM.joinPlayer(p.getName());
     }
 }

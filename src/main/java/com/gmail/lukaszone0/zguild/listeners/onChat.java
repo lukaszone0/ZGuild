@@ -4,17 +4,15 @@ import com.gmail.lukaszone0.zguild.interfaces.IGuild;
 import com.gmail.lukaszone0.zguild.interfaces.IPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.gmail.lukaszone0.zguild.ZGuild;
 
-public class ChatListener implements Listener {
+public class onChat implements Listener {
     @EventHandler
-    public void onEvent(AsyncPlayerChatEvent e) {
+    public void onChatEvent(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         String message = e.getMessage();
         final String playername = p.getName();
@@ -39,7 +37,7 @@ public class ChatListener implements Listener {
 
         if(playerhaveguild) {
             //e.setMessage(message);
-            e.setFormat(guildcolor + playerguild.name + e.getPlayer().getName() + ": " + e.getMessage());
+            e.setFormat(ChatColor.DARK_GRAY + "[" + guildcolor + playerguild.name + ChatColor.DARK_GRAY + "] " + e.getPlayer().getName() + ": " + e.getMessage());
         }
     }
 }

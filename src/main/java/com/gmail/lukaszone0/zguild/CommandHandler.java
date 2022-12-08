@@ -118,7 +118,8 @@ public class CommandHandler implements CommandExecutor {
 
                     //inv.setItem(1, creative);
 
-                    p.openInventory(inv);
+                    //p.openInventory(inv);
+                    //todo invenory select guild color
 
                     if(arg2.isBlank()){
                         p.sendMessage(prefix + "Dostępne kolory: ");
