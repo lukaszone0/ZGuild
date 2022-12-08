@@ -55,20 +55,64 @@ public class CommandHandler implements CommandExecutor {
 
             IPlayer playerdata = ZGuild.PM.get(playername);
             IGuild playerguild = new IGuild("null", "null");
+
+            if(ZGuild.GM.guildExist(playerdata.guild)){
+                playerguild = ZGuild.GM.get(playerdata.guild);
+            }
+
             boolean playerisking = playerguild.king.equalsIgnoreCase(playername);
             boolean playerisoficer = playerguild.oficers.contains(playername);
             boolean playerismember = playerguild.members.contains(playername);
             boolean playerhaveguild = false;
 
-            if(ZGuild.GM.guildExist(playerdata.guild)){
+            if(!playerdata.guild.isBlank()){
                 playerhaveguild = true;
-                playerguild = ZGuild.GM.get(playerdata.guild);
             }
+            ChatColor guildcolor = ChatColor.WHITE;
+
+            guildcolor = ZGuild.GM.getColor(playerguild.color);
+
+
 
             switch(arg1.toLowerCase()) {
                 default:
                 case "help":
                     p.sendMessage(prefix + "TODO HELP");
+                    break;
+                case "kolor":
+                    if(!playerhaveguild){
+                        p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
+                        break;
+                    }
+                    if(!playerisking){
+                        p.sendMessage(prefix + "Tylko przywódca gildi może zmienić kolor.");
+                        break;
+                    }
+                    if(arg2.isBlank()){
+                        p.sendMessage(prefix + "Dostępne kolory: ");
+                        p.sendMessage(prefix + "    - RED");
+                        p.sendMessage(prefix + "    - DARK_RED");
+                        p.sendMessage(prefix + "    - DARK_PURPLE");
+                        p.sendMessage(prefix + "    - LIGHT_PURPLE");
+                        p.sendMessage(prefix + "    - AQUA");
+                        p.sendMessage(prefix + "    - DARK_AQUA");
+                        p.sendMessage(prefix + "    - BLUE");
+                        p.sendMessage(prefix + "    - DARK_BLUE");
+                        p.sendMessage(prefix + "    - GRAY");
+                        p.sendMessage(prefix + "    - DARK_GRAY");
+                        p.sendMessage(prefix + "    - GREEN");
+                        p.sendMessage(prefix + "    - DARK_GREEN");
+                        p.sendMessage(prefix + "    - YELLOW");
+                        p.sendMessage(prefix + "    - GOLD");
+                        break;
+                    }
+                    if(!ZGuild.GM.colorCorrect(arg2.toUpperCase())){
+                        p.sendMessage(prefix + "Wpisany kolor nie jest poprawny.");
+                        break;
+                    }
+
+                    ZGuild.GM.get(playerguild.name).color = arg2.toUpperCase();
+                    p.sendMessage(prefix + ZGuild.GM.getColor(arg2.toUpperCase()) + "Kolor zaakceptowany.");
                     break;
                 case "top":
                     if(ZGuild.GM.guildsCount() == 0) {
@@ -81,7 +125,7 @@ public class CommandHandler implements CommandExecutor {
                         int numer = 1;
                         for(IGuild g : top){
                             if(!g.name.isBlank()) {
-                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + ChatColor.WHITE + g.name + ChatColor.DARK_GRAY + " ]--------------");
+                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + guildcolor + g.name + ChatColor.DARK_GRAY + " ]--------------");
                                 p.sendMessage(ChatColor.GRAY + "           Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + "");
                                 p.sendMessage(ChatColor.GRAY + "           Złoto: " + ChatColor.GOLD + g.money + ChatColor.GRAY + "");
                                 numer++;
@@ -94,7 +138,7 @@ public class CommandHandler implements CommandExecutor {
                         int numer = 1;
                         for(IGuild g : top){
                             if(!g.name.isBlank()) {
-                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + ChatColor.WHITE + g.name + ChatColor.DARK_GRAY + " ]--------------");
+                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + guildcolor + g.name + ChatColor.DARK_GRAY + " ]--------------");
                                 p.sendMessage(ChatColor.GRAY + "           Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + "");
                                 p.sendMessage(ChatColor.GRAY + "           Członkowie: " + ChatColor.AQUA + g.members.size() + ChatColor.GRAY + "");
                                 numer++;
@@ -110,21 +154,19 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
                     if(playerisking){
-                        p.sendMessage(prefix + "Jesteś przywódcą gildi " + ChatColor.WHITE + playerdata.guild);
+                        p.sendMessage(prefix + "Jesteś przywódcą gildi " + guildcolor + playerdata.guild);
                         break;
                     }
                     else if(playerisoficer){
-                        p.sendMessage(prefix + "Jesteś oficerem gildi " + ChatColor.WHITE + playerdata.guild);
+                        p.sendMessage(prefix + "Jesteś oficerem gildi " + guildcolor + playerdata.guild);
                         break;
                     }
                     else if(playerismember){
-                        p.sendMessage(prefix + "Jesteś członkiem gildi " + ChatColor.WHITE + playerdata.guild);
+                        p.sendMessage(prefix + "Jesteś członkiem gildi " + guildcolor + playerdata.guild);
                         break;
                     }
                     else{
-                        p.sendMessage("nazwa gildi:" + playerguild.name);
                         p.sendMessage(prefix + "error: guild-info:undefined-guild-rank");
-                        p.sendMessage("king:" + playerguild.king);
                         p.sendMessage(playername);
                     }
                     break;
@@ -166,8 +208,8 @@ public class CommandHandler implements CommandExecutor {
                     newguild.slot = ZGuild.config.getInt("guild_slot_start");
                     ZGuild.GM.addGuild(newguild);
                     ZGuild.PM.get(playername).guild = arg2.toUpperCase();
-                    p.sendMessage(prefix + "Gildia " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " została utworzona.");
-                    Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " założył gildie " + ChatColor.WHITE + newguild.name);
+                    p.sendMessage(prefix + "Gildia " + guildcolor + arg2 + ChatColor.GRAY + " została utworzona.");
+                    Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " założył gildie " + guildcolor + newguild.name);
 
                     break;
                 case "zapros":
@@ -176,7 +218,7 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
-                    if(!playerisking && playerisoficer){
+                    if(!playerisking && !playerisoficer){
                         p.sendMessage(prefix + "Tylko przywódca lub oficer może zapraszać graczy do gildi.");
                         break;
                     }
@@ -197,13 +239,45 @@ public class CommandHandler implements CommandExecutor {
                     if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
                         ZGuild.PM.get(arg2).invites.add(playerguild.name);
                         p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + "zostało wysłane.");
-                        ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + ChatColor.WHITE + playerguild.name);
-                        ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g akceptuj " + playerguild.name);
+                        ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + guildcolor + playerguild.name);
+                        ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g akceptuj " + playerguild.name.toLowerCase());
+                    }
+
+                    break;
+                case "anulujzaproszenie":
+
+                    if(!playerhaveguild){
+                        p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
+                        break;
+                    }
+
+                    if(!playerisking && !playerisoficer){
+                        p.sendMessage(prefix + "Tylko przywódca lub oficer może zapraszać graczy do gildi.");
+                        break;
+                    }
+
+                    if(arg2.isBlank()){
+                        p.sendMessage(prefix + "Niepoprawna nazwa gracza.");
+                        p.sendMessage(prefix + "Wpisz /g zapros <nazwa gracza>");
+                        break;
+                    }
+
+                    Player idpl = Bukkit.getPlayer(arg2);
+
+                    if(idpl == null) {
+                        p.sendMessage(prefix + "Niepoprawna nazwa gracza lub gracz jest offline.");
+                        break;
+                    }
+
+                    if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
+                        ZGuild.PM.get(arg2).invites.remove(playerguild.name);
+                        p.sendMessage(prefix + "Zaproszenie gracza " + ChatColor.WHITE + arg2 + "zostało anulowane.");
+                        idpl.sendMessage(prefix + "Zaproszenie do gildi " + guildcolor + playerguild.name + ChatColor.GRAY + " anulowane.");
                     }
 
                     break;
                 case "zaproszenia":
-                    if(playerdata.invites.size() <= 0){
+                    if(playerdata.invites.size() == 0){
                         p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
 
@@ -225,7 +299,7 @@ public class CommandHandler implements CommandExecutor {
                     }
                     ZGuild.PM.get(playername).guild = arg2.toUpperCase();
                     ZGuild.PM.get(playername).invites.clear();
-                    p.sendMessage(prefix + "Dołączyłeś do gildi " + ChatColor.WHITE + arg2.toUpperCase());
+                    p.sendMessage(prefix + "Dołączyłeś do gildi " + guildcolor + arg2.toUpperCase());
                     ZGuild.GM.get(arg2).members.add(playername);
                     Bukkit.getPlayer(ZGuild.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
 
@@ -247,7 +321,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     else if(arg2.equals("potwierdzam")){
-                        p.sendMessage(prefix + "Opuściłeś gildie " + playerdata.guild);
+                        p.sendMessage(prefix + "Opuściłeś gildie " + guildcolor + playerdata.guild);
 
                         if(playerisoficer){
                             ZGuild.GM.get(playerdata.guild).oficers.remove(playername);
@@ -314,14 +388,16 @@ public class CommandHandler implements CommandExecutor {
                     else if(arg2.equals("potwierdzam")){
                         for(String member : playerguild.members){
                             // kick players
-                            Bukkit.getPlayer(member).sendMessage(prefix + playername + " rozwiązał gildię " + playerdata.guild);
+                            Bukkit.getPlayer(member).sendMessage(prefix + playername + " rozwiązał gildię " + guildcolor + playerdata.guild);
                             ZGuild.PM.get(member).guild = "";
                         }
                         for(String oficer : playerguild.oficers){
                             // kick oficers
-                            Bukkit.getPlayer(oficer).sendMessage(prefix + playername + " rozwiązał gildię " + playerdata.guild);
+                            Bukkit.getPlayer(oficer).sendMessage(prefix + playername + " rozwiązał gildię " + guildcolor + playerdata.guild);
                             ZGuild.PM.get(oficer).guild = "";
                         }
+
+                        Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " rozwiązał gildie " + guildcolor + playerdata.guild);
 
                         ZGuild.PM.get(playername).guild = "";
                         p.sendMessage(prefix + "Gildia została rozwiązana.");

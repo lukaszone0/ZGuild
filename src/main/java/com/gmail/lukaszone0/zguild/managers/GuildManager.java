@@ -1,6 +1,7 @@
 package com.gmail.lukaszone0.zguild.managers;
 
 import com.gmail.lukaszone0.zguild.interfaces.IGuild;
+import org.bukkit.ChatColor;
 
 import java.util.*;
 
@@ -65,6 +66,76 @@ public class GuildManager {
         }
 
         return temp;
+    }
+    public ChatColor getColor(String colorstring){
+        ChatColor guildcolor = ChatColor.WHITE;
+
+        switch(colorstring.toUpperCase()){
+            case "RED":
+                guildcolor = ChatColor.RED;
+                break;
+            case "DARK_RED":
+                guildcolor = ChatColor.DARK_RED;
+                break;
+            case "DARK_PURPLE":
+                guildcolor = ChatColor.DARK_PURPLE;
+                break;
+            case "LIGHT_PURPLE":
+                guildcolor = ChatColor.LIGHT_PURPLE;
+                break;
+            case "AQUA":
+                guildcolor = ChatColor.AQUA;
+                break;
+            case "DARK_AQUA":
+                guildcolor = ChatColor.DARK_AQUA;
+                break;
+            case "BLUE":
+                guildcolor = ChatColor.BLUE;
+                break;
+            case "DARK_BLUE":
+                guildcolor = ChatColor.DARK_BLUE;
+                break;
+            case "GRAY":
+                guildcolor = ChatColor.GRAY;
+                break;
+            case "DARK_GRAY":
+                guildcolor = ChatColor.DARK_GRAY;
+                break;
+            case "GREEN":
+                guildcolor = ChatColor.GREEN;
+                break;
+            case "DARK_GREEN":
+                guildcolor = ChatColor.DARK_GREEN;
+                break;
+            case "YELLOW":
+                guildcolor = ChatColor.YELLOW;
+                break;
+            case "GOLD":
+                guildcolor = ChatColor.GOLD;
+                break;
+        }
+        return guildcolor;
+    }
+    public boolean colorCorrect(String colorstring){
+
+        switch(colorstring.toUpperCase()){
+            case "RED":
+            case "DARK_RED":
+            case "DARK_PURPLE":
+            case "LIGHT_PURPLE":
+            case "AQUA":
+            case "DARK_AQUA":
+            case "BLUE":
+            case "DARK_BLUE":
+            case "GRAY":
+            case "DARK_GRAY":
+            case "GREEN":
+            case "DARK_GREEN":
+            case "YELLOW":
+            case "GOLD":
+                return true;
+        }
+        return false;
     }
     public IGuild get(String name){
         name = name.toUpperCase();
