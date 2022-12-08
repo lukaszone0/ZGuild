@@ -32,18 +32,21 @@ public class ZGuild extends JavaPlugin implements Listener {
 
         PluginManager pm = Bukkit.getPluginManager();
 
-        pm.addPermission(new Permission("guild.create"));
-        pm.addPermission(new Permission("guild.list"));
-        pm.addPermission(new Permission("guild.delete"));
-        pm.addPermission(new Permission("guild.add"));
-        pm.addPermission(new Permission("guild.kick"));
-        pm.addPermission(new Permission("guild.leave"));
-        pm.addPermission(new Permission("guild.sethome"));
-        pm.addPermission(new Permission("guild.delhome"));
-        pm.addPermission(new Permission("guild.addoficer"));
-        pm.addPermission(new Permission("guild.removeoficer"));
-        pm.addPermission(new Permission("guild.king"));
-        pm.addPermission(new Permission("guild.pay"));
+        pm.addPermission(new Permission("guild.zaloz"));
+        pm.addPermission(new Permission("guild.top"));
+        pm.addPermission(new Permission("guild.info"));
+        pm.addPermission(new Permission("guild.usun"));
+        pm.addPermission(new Permission("guild.zapros"));
+        pm.addPermission(new Permission("guild.zaproszenia"));
+        pm.addPermission(new Permission("guild.akceptuj"));
+        pm.addPermission(new Permission("guild.wyrzuc"));
+        pm.addPermission(new Permission("guild.opusc"));
+        pm.addPermission(new Permission("guild.ustawdom"));
+        pm.addPermission(new Permission("guild.usundom"));
+        pm.addPermission(new Permission("guild.dajoficera"));
+        pm.addPermission(new Permission("guild.usunoficera"));
+        pm.addPermission(new Permission("guild.nowyprzywodca"));
+        pm.addPermission(new Permission("guild.wplac"));
 
         getServer().getPluginManager().registerEvents(new Join(), this);
         getServer().getPluginManager().registerEvents(new Quit(), this);

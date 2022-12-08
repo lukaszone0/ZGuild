@@ -101,7 +101,6 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
                         break;
                     }
-
                     if(playerguild.king.equals(playername)){
                         p.sendMessage(prefix + "Jesteś przywódcą gildi " + ChatColor.WHITE + playerdata.guildname);
                         break;
@@ -115,12 +114,13 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
                     else{
+                        p.sendMessage("nazwa gildi:" + playerguild.name);
                         p.sendMessage(prefix + "error: guild-info:undefined-guild-rank");
                         p.sendMessage("king:" + playerguild.king);
                         p.sendMessage(playername);
                     }
                     break;
-                case "create":
+                case "zaloz":
                     if(playerdata.haveguild){
                         p.sendMessage(prefix + "Jesteś już członkiem innej gildi!");
                         break;
@@ -165,9 +165,7 @@ public class CommandHandler implements CommandExecutor {
                     Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "----------------------");
 
                     break;
-                case "invite":
-                case "dodaj":
-                case "zaproś":
+                case "zapros":
                     if(!playerdata.haveguild){
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
                         break;
@@ -195,7 +193,6 @@ public class CommandHandler implements CommandExecutor {
                     p.sendMessage(prefix + "Zaproszenie zostało wysłane.");
 
                     break;
-                case "invitelist":
                 case "zaproszenia":
                     if(playerdata.invites.size() >0) {
                         p.sendMessage(ChatColor.DARK_GRAY + "--------[LISTA ZAPROSZEŃ]--------");
@@ -209,7 +206,7 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
                     break;
-                case "join":
+                case "akceptuj":
                     if(playerdata.haveguild){
                         p.sendMessage(prefix + "Jesteś już członkiem innej gildi!");
                         break;
@@ -227,7 +224,7 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie znaleziono takiego zaproszenia.");
                     }
                     break;
-                case "leave":
+                case "opusc":
                     if(!playerdata.haveguild){
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
                         break;
@@ -249,7 +246,10 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     break;
-                case "delete":
+                case "wyrzuc":
+
+                    break;
+                case "usun":
                     if(!playerdata.haveguild){
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
                         break;
