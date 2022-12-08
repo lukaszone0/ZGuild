@@ -83,25 +83,6 @@ public class CommandHandler implements CommandExecutor {
                 case "help":
                     p.sendMessage(prefix + "TODO HELP");
                     break;
-                case "kolortest":
-
-                    Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RED +  "GUI");
-                    ItemStack survival = new ItemStack(Material.DIAMOND_BLOCK);
-                    ItemMeta survivalMeta = survival.getItemMeta();
-                    ItemStack creative = new ItemStack(Material.REDSTONE_BLOCK);
-                    ItemMeta creativeMeta = creative.getItemMeta();
-
-                    survivalMeta.setDisplayName("Survival");
-                    survival.setItemMeta(survivalMeta);
-                    creativeMeta.setDisplayName("Creative");
-                    creative.setItemMeta(creativeMeta);
-
-                    inv.setItem(3, survival);
-                    inv.setItem(5, creative);
-
-                    p.openInventory(inv);
-
-                    break;
                 case "kolor":
                     if(!playerhaveguild){
                         p.sendMessage(prefix + "Nie należysz do żadnej gildi.");
@@ -111,6 +92,34 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Tylko przywódca gildi może zmienić kolor.");
                         break;
                     }
+
+                    Inventory inv = Bukkit.createInventory(null, 9, "KOLOR");
+
+                    ItemStack red = new ItemStack(Material.RED_WOOL); // red
+                    ItemStack dark_red = new ItemStack(Material.RED_WOOL); // dark red
+
+                    ItemStack dark_purple = new ItemStack(Material.PURPLE_WOOL); // fiolet
+                    ItemStack light_purple = new ItemStack(Material.PINK_WOOL); // rozowy
+
+                    ItemStack aqua = new ItemStack(Material.CYAN_WOOL);
+                    ItemStack dark_aqua = new ItemStack(Material.CYAN_WOOL);
+
+                    ItemStack blue = new ItemStack(Material.BLUE_WOOL);
+                    ItemStack dark_blue = new ItemStack(Material.BLUE_WOOL);
+
+                    ItemStack gray = new ItemStack(Material.LIGHT_GRAY_WOOL);
+                    ItemStack dark_gray = new ItemStack(Material.GRAY_WOOL);
+
+                    ItemStack green = new ItemStack(Material.LIME_WOOL);
+                    ItemStack dark_green = new ItemStack(Material.GREEN_WOOL);
+
+                    ItemStack yellow = new ItemStack(Material.YELLOW_WOOL);
+                    ItemStack gold = new ItemStack(Material.GOLD_BLOCK);
+
+                    //inv.setItem(1, creative);
+
+                    p.openInventory(inv);
+
                     if(arg2.isBlank()){
                         p.sendMessage(prefix + "Dostępne kolory: ");
                         p.sendMessage(prefix + "    - RED");
