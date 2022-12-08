@@ -15,18 +15,19 @@ public class GuildManager extends YamlConfiguration {
     private final IGuild[] guildsTop = new IGuild[5];
 
     public GuildManager(){
-        File path = new File("/guilds");
+        Path path = new File("/guilds");
         //todo load guilds from file HERE
-        for (final File fileEntry : path.listFiles()) {
-            if (!fileEntry.isDirectory()) {
-                YamlConfiguration guild = new YamlConfiguration();
-                try {
-                    guild.load(fileEntry);
-                    IGuild newg = new IGuild(guild.get("name").toString(), guild.get("king").toString());
-
-                }
-                catch (InvalidConfigurationException | IOException e){
-                    Bukkit.getLogger().info("Cant read guild in guilds folder..");
+        if(path.listFiles().length > 0) {
+            for (File fileEntry : path.listFiles()) {
+                if (!fileEntry.isDirectory()) {
+                    YamlConfiguration guild = new YamlConfiguration();
+                    try {
+                        guild.load(fileEntry);
+                        IGuild newg = new IGuild(guild.get("name").toString(), guild.get("king").toString());
+                        guildsDB.put(newg.name, newg);
+                    } catch (InvalidConfigurationException | IOException e) {
+                        Bukkit.getLogger().info("Cant read guild in guilds folder..");
+                    }
                 }
             }
         }
