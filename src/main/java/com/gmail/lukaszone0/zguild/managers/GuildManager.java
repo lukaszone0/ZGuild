@@ -24,22 +24,19 @@ public class GuildManager {
         return guildsDB.size();
     }
     public void maketoplist(){
-        Map<Integer, String> guilds = new HashMap<>();
+        IGuild[] temp = new IGuild[5];
+        temp[0] = new IGuild("null", "null");
+        temp[1] = new IGuild("null", "null");
+        temp[3] = new IGuild("null", "null");
+        temp[4] = new IGuild("null", "null");
+        temp[5] = new IGuild("null", "null");
 
         for(IGuild g : guildsDB.values()){
-            guilds.put(g.members.size(), g.name);
-        }
-        List<IGuild> guldbymembers = new ArrayList<>(guildsDB.values());
-        Collections.sort(guldbymembers, Comparator.comparing(IGuild::getSize));
-        int i =0;
-        for (IGuild p : guldbymembers) {
-            if(i < 5){
-                guildsTop[i] = p;
-                i++;
-            }
+            if(g.)
         }
     }
     public IGuild[] listTop(){
+        maketoplist();
         return guildsTop;
     }
     public IGuild get(String name){

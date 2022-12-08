@@ -52,7 +52,7 @@ public class CommandHandler implements CommandExecutor {
             IPlayer playerdata = ZGuild.PM.get(playername);
             IGuild playerguild = new IGuild("null", "null");
 
-            p.sendMessage("playerdata:guildname: " + playerdata.guildname);
+
             if(playerdata.haveguild){
                 playerguild = ZGuild.GM.get(playerdata.guildname.toUpperCase());
             }
@@ -64,7 +64,6 @@ public class CommandHandler implements CommandExecutor {
                     break;
                 case "list":
                     if(ZGuild.GM.guildsCount() > 0) {
-                        ZGuild.GM.maketoplist();
                         p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE" + ChatColor.DARK_GRAY + "]-----------");
                         int numer = 1;
                         for (IGuild g : ZGuild.GM.listTop()) {
@@ -79,6 +78,9 @@ public class CommandHandler implements CommandExecutor {
                     else{
                         p.sendMessage(prefix + "Brak gildi na serwerze.");
                     }
+                    break;
+                case "top":
+
                     break;
                 case "info":
                     if(!playerdata.haveguild){
