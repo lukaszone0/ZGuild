@@ -23,7 +23,7 @@ public class GuildManager {
     public int guildsCount(){
         return guildsDB.size();
     }
-    public void maketoplist(){
+    public IGuild[] topList(String type){
         IGuild[] temp = new IGuild[5];
         temp[0] = new IGuild("null", "null");
         temp[1] = new IGuild("null", "null");
@@ -32,12 +32,47 @@ public class GuildManager {
         temp[5] = new IGuild("null", "null");
 
         for(IGuild g : guildsDB.values()){
-            if(g.)
+            if(type == "money"){
+                if(g.money > temp[0].money){
+                    temp[1] = temp[0];
+                    temp[0] = g;
+                }
+                else if(g.money > temp[1].money){
+                    temp[2] = temp[1];
+                    temp[1] = g;
+                }
+                else if(g.money > temp[2].money){
+                    temp[2] = temp[3];
+                    temp[2] = g;
+                }
+                else if(g.money > temp[3].money){
+                    temp[3] = temp[4];
+                    temp[3] = g;
+                }
+                else if(g.money > temp[4].money){
+                    temp[4] = g;
+                }
+            }
+            else if(type == "members"){
+                if(g.members.size() > temp[0].members.size()){
+                    temp[0] = g;
+                }
+                else if(g.members.size() > temp[1].members.size()){
+                    temp[1] = g;
+                }
+                else if(g.members.size() > temp[2].members.size()){
+                    temp[2] = g;
+                }
+                else if(g.members.size() > temp[3].members.size()){
+                    temp[3] = g;
+                }
+                else if(g.members.size() > temp[4].members.size()){
+                    temp[4] = g;
+                }
+            }
         }
-    }
-    public IGuild[] listTop(){
-        maketoplist();
-        return guildsTop;
+
+        return temp;
     }
     public IGuild get(String name){
         if(guildsDB.containsKey(name)){

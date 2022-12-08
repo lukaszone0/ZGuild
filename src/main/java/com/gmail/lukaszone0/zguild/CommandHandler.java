@@ -62,24 +62,38 @@ public class CommandHandler implements CommandExecutor {
                 case "help":
                     p.sendMessage(prefix + "TODO HELP");
                     break;
-                case "list":
-                    if(ZGuild.GM.guildsCount() > 0) {
-                        p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE" + ChatColor.DARK_GRAY + "]-----------");
-                        int numer = 1;
-                        for (IGuild g : ZGuild.GM.listTop()) {
-                            p.sendMessage(ChatColor.DARK_GRAY +"--------------[ #"+ChatColor.WHITE + numer +ChatColor.DARK_GRAY +" ]--------------");
-                            p.sendMessage(ChatColor.GRAY + "           GILDIA: "+ ChatColor.WHITE + g.name + ChatColor.GRAY +"");
-                            p.sendMessage(ChatColor.GRAY + "           Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + "");
-                            p.sendMessage(ChatColor.GRAY + "           Złoto: " + ChatColor.GOLD + g.money + ChatColor.GRAY + "");
-                            p.sendMessage(ChatColor.GRAY + "           Członkowie: " + ChatColor.AQUA + g.members.size() + ChatColor.GRAY + "");
-                            numer++;
-                        }
-                    }
-                    else{
+                case "top":
+                    if(ZGuild.GM.guildsCount() == 0) {
                         p.sendMessage(prefix + "Brak gildi na serwerze.");
                     }
-                    break;
-                case "top":
+
+                    if(arg2.equals("zloto")) {
+                        IGuild[] top = ZGuild.GM.topList("money");
+                        p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE - " + ChatColor.GOLD + "ZŁOTO" + ChatColor.DARK_GRAY + "]-----------");
+                        int numer = 1;
+                        for(IGuild g : top){
+                            if(!g.name.isBlank()) {
+                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + ChatColor.WHITE + g.name + ChatColor.DARK_GRAY + " ]--------------");
+                                p.sendMessage(ChatColor.GRAY + "           Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + "");
+                                p.sendMessage(ChatColor.GRAY + "           Złoto: " + ChatColor.GOLD + g.money + ChatColor.GRAY + "");
+                                numer++;
+                            }
+                        }
+                        p.sendMessage(ChatColor.DARK_GRAY + "---------------------------------");
+                    }else if(arg2.equals("czlonkowie")) {
+                        IGuild[] top = ZGuild.GM.topList("members");
+                        p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE - " + ChatColor.AQUA + "CZŁONKOWIE" + ChatColor.DARK_GRAY + "]-----------");
+                        int numer = 1;
+                        for(IGuild g : top){
+                            if(!g.name.isBlank()) {
+                                p.sendMessage(ChatColor.DARK_GRAY + "--------------[ #" + ChatColor.WHITE + numer + " " + ChatColor.WHITE + g.name + ChatColor.DARK_GRAY + " ]--------------");
+                                p.sendMessage(ChatColor.GRAY + "           Przywódca: " + ChatColor.GREEN + g.king + ChatColor.GRAY + "");
+                                p.sendMessage(ChatColor.GRAY + "           Członkowie: " + ChatColor.AQUA + g.members.size() + ChatColor.GRAY + "");
+                                numer++;
+                            }
+                        }
+                        p.sendMessage(ChatColor.DARK_GRAY + "---------------------------------");
+                    }
 
                     break;
                 case "info":
