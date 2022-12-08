@@ -11,15 +11,7 @@ public class GuildManager {
     public GuildManager(){
         //todo load guilds from file HERE
     }
-    public IGuild[] list(){
-        IGuild[] guilds = new IGuild[guildsDB.size()];
-        int i = 0;
-        for(IGuild g : guildsDB.values()){
-            guilds[i] = g;
-            i++;
-        }
-        return guilds;
-    }
+
     public int guildsCount(){
         return guildsDB.size();
     }
@@ -75,18 +67,21 @@ public class GuildManager {
         return temp;
     }
     public IGuild get(String name){
+        name = name.toUpperCase();
         if(guildsDB.containsKey(name)){
             return guildsDB.get(name);
         }
         return new IGuild("", "");
     }
     public void addGuild(IGuild newguild) {
+        newguild.name = newguild.name.toUpperCase();
         if(!guildsDB.containsKey(newguild.name)) {
             guildsDB.put(newguild.name, newguild);
             //todo save guild to file HERE
         }
     }
     public void removeGuild(String name){
+        name = name.toUpperCase();
         if(guildsDB.containsKey(name)){
             guildsDB.remove(name);
             //todo delete guild file HERE

@@ -1,6 +1,7 @@
 package com.gmail.lukaszone0.zguild.managers;
 
 import com.gmail.lukaszone0.zguild.interfaces.IPlayer;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,21 +10,28 @@ public class PlayerManager {
     private final Map<String, IPlayer> playersDB = new HashMap<>();
 
     public IPlayer get(String playername){
-        if(playersDB.containsKey(playername.toLowerCase())){
-            return playersDB.get(playername);
+        if(!playersDB.containsKey(playername.toLowerCase())){
+            joinPlayer(playername);
         }
-        return new IPlayer();
+        return playersDB.get(playername.toLowerCase());
     }
     public void joinPlayer(String playername) {
         if(!playersDB.containsKey(playername.toLowerCase())){
-            //todo load player data from file
-            playersDB.put(playername.toLowerCase(), new IPlayer());
+            playersDB.put(playername.toLowerCase(), new IPlayer(playername));
+            Bukkit.getLogger().info("Dodano gracza " + playername + " do bazy");
+        }
+        else{
+            Bukkit.getLogger().info("Gracz " + playername + " juz istnieje w bazie");
         }
     }
     public void quitPlayer(String playername){
         if(playersDB.containsKey(playername.toLowerCase())){
             //todo update player data from file
-            playersDB.remove(playername);
+            playersDB.remove(playername.toLowerCase());
+            Bukkit.getLogger().info("Usunieti gracza " + playername + " z bazy");
+        }
+        else{
+            Bukkit.getLogger().info("Gracz " + playername.toLowerCase() + " juz istnieje w bazie");
         }
     }
 }
