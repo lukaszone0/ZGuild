@@ -1,33 +1,36 @@
 package com.gmail.lukaszone0.zguild.managers;
 
+import com.gmail.lukaszone0.zguild.ZGuild;
 import com.gmail.lukaszone0.zguild.interfaces.IGuild;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
+import org.yaml.snakeyaml.Yaml;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
 public class GuildManager extends YamlConfiguration {
     private final Map<String, IGuild> guildsDB = new HashMap<>();
     private final IGuild[] guildsTop = new IGuild[5];
-
-    public GuildManager(){
-        Path path = new File("/guilds");
+    private ZGuild plugin;
+    public GuildManager(ZGuild pl){
+        this.plugin = pl;
         //todo load guilds from file HERE
-        if(path.listFiles().length > 0) {
-            for (File fileEntry : path.listFiles()) {
-                if (!fileEntry.isDirectory()) {
-                    YamlConfiguration guild = new YamlConfiguration();
-                    try {
-                        guild.load(fileEntry);
-                        IGuild newg = new IGuild(guild.get("name").toString(), guild.get("king").toString());
-                        guildsDB.put(newg.name, newg);
-                    } catch (InvalidConfigurationException | IOException e) {
-                        Bukkit.getLogger().info("Cant read guild in guilds folder..");
-                    }
+        File folder = new File(plugin.getDataFolder() + "/guilds");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                try {
+                    Yaml guildyaml = new Yaml(new Constructor(IGuild.class));
+                    IGuild guild = (IGuild) guildyaml.load(new FileInputStream(new File("guilds/" + listOfFiles[i].getName() + ".yml")));
+                    guildsDB.put(guild.name, guild);
+                }
+                catch (IOException ie){
+                    Bukkit.getLogger().info("cant read guild file...");
                 }
             }
         }

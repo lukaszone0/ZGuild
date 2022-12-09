@@ -11,17 +11,23 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.gmail.lukaszone0.zguild.ZGuild;
 
 public class onChat implements Listener {
+
+    private ZGuild plugin;
+
+    public onChat(ZGuild pl){
+        plugin = pl;
+    }
     @EventHandler
     public void onChatEvent(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         String message = e.getMessage();
         final String playername = p.getName();
 
-        IPlayer playerdata = ZGuild.PM.get(playername);
+        IPlayer playerdata = plugin.PM.get(playername);
         IGuild playerguild = new IGuild("null", "null");
 
-        if(ZGuild.GM.guildExist(playerdata.guild)){
-            playerguild = ZGuild.GM.get(playerdata.guild);
+        if(plugin.GM.guildExist(playerdata.guild)){
+            playerguild = plugin.GM.get(playerdata.guild);
         }
 
         boolean playerisking = playerguild.king.equalsIgnoreCase(playername);

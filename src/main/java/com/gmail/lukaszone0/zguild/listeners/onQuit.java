@@ -7,9 +7,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class onQuit implements Listener {
+    private ZGuild plugin;
+
+    public onQuit(ZGuild pl){
+        plugin = pl;
+    }
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
-        ZGuild.PM.quitPlayer(p.getName());
+        plugin.PM.quitPlayer(p.getName());
     }
 }

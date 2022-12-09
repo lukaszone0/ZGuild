@@ -15,6 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class CommandHandler implements CommandExecutor {
 
+    private ZGuild plugin;
+
+    public CommandHandler(ZGuild pl){
+        plugin = pl;
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
@@ -53,15 +58,15 @@ public class CommandHandler implements CommandExecutor {
             }
 
             if (!p.hasPermission("guild." + arg1.toLowerCase())) {
-                p.sendMessage(ZGuild.prefix + "Brak uprawnień.");
+                p.sendMessage(plugin.prefix + "Brak uprawnień.");
                 return false;
             }
 
-            IPlayer playerdata = ZGuild.PM.get(playername);
+            IPlayer playerdata = plugin.PM.get(playername);
             IGuild playerguild = new IGuild("null", "null");
 
-            if(ZGuild.GM.guildExist(playerdata.guild)){
-                playerguild = ZGuild.GM.get(playerdata.guild);
+            if(plugin.GM.guildExist(playerdata.guild)){
+                playerguild = plugin.GM.get(playerdata.guild);
             }
 
             boolean playerisking = playerguild.king.equalsIgnoreCase(playername);
@@ -139,21 +144,21 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "    - GOLD");
                         break;
                     }
-                    if(!ZGuild.GM.colorCorrect(arg2.toUpperCase())){
+                    if(!plugin.GM.colorCorrect(arg2.toUpperCase())){
                         p.sendMessage(prefix + "Wpisany kolor nie jest poprawny.");
                         break;
                     }
 
-                    ZGuild.GM.get(playerguild.name).color = arg2.toUpperCase();
-                    p.sendMessage(prefix + ZGuild.GM.getColor(arg2.toUpperCase()) + "Kolor zaakceptowany.");
+                    plugin.GM.get(playerguild.name).color = arg2.toUpperCase();
+                    p.sendMessage(prefix + plugin.GM.getColor(arg2.toUpperCase()) + "Kolor zaakceptowany.");
                     break;
                 case "top":
-                    if(ZGuild.GM.guildsCount() == 0) {
+                    if(plugin.GM.guildsCount() == 0) {
                         p.sendMessage(prefix + "Brak gildi na serwerze.");
                     }
 
                     if(arg2.equalsIgnoreCase("zloto")) {
-                        IGuild[] top = ZGuild.GM.topList("money");
+                        IGuild[] top = plugin.GM.topList("money");
                         p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE - " + ChatColor.GOLD + "ZŁOTO" + ChatColor.DARK_GRAY + "]-----------");
                         int numer = 1;
                         for(IGuild g : top){
@@ -166,7 +171,7 @@ public class CommandHandler implements CommandExecutor {
                         }
                         p.sendMessage(ChatColor.DARK_GRAY + "---------------------------------");
                     }else if(arg2.equalsIgnoreCase("czlonkowie")) {
-                        IGuild[] top = ZGuild.GM.topList("members");
+                        IGuild[] top = plugin.GM.topList("members");
                         p.sendMessage(ChatColor.DARK_GRAY + "-----------[" + ChatColor.GREEN + "TOP GILDIE - " + ChatColor.AQUA + "CZŁONKOWIE" + ChatColor.DARK_GRAY + "]-----------");
                         int numer = 1;
                         for(IGuild g : top){
@@ -208,7 +213,7 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Jesteś już członkiem innej gildi!");
                         break;
                     }
-                    if(arg2.isBlank() || ZGuild.GM.guildExist(arg2)){
+                    if(arg2.isBlank() || plugin.GM.guildExist(arg2)){
                         p.sendMessage(prefix + "Ta nazwa gildi nie jest dostępna.");
                         break;
                     }
@@ -239,8 +244,8 @@ public class CommandHandler implements CommandExecutor {
                     IGuild newguild = new IGuild(arg2, playername);
                     newguild.money = ZGuild.config.getInt("guild_money_start");
                     newguild.slot = ZGuild.config.getInt("guild_slot_start");
-                    ZGuild.GM.addGuild(newguild);
-                    ZGuild.PM.get(playername).guild = arg2.toUpperCase();
+                    plugin.GM.addGuild(newguild);
+                    plugin.PM.get(playername).guild = arg2.toUpperCase();
                     p.sendMessage(prefix + "Gildia " + guildcolor + arg2 + ChatColor.GRAY + " została utworzona.");
                     Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " założył gildie " + guildcolor + newguild.name);
 
@@ -269,8 +274,8 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
-                    if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
-                        ZGuild.PM.get(arg2).invites.add(playerguild.name);
+                    if(!plugin.PM.get(arg2).invites.contains(playerguild.name)){
+                        plugin.PM.get(arg2).invites.add(playerguild.name);
                         p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " zostało wysłane.");
                         ipl.sendMessage(prefix + "Otrzymałeś zaproszenie do gildi " + guildcolor + playerguild.name);
                         ipl.sendMessage(prefix + "Aby do niej dołączyć wpisz /g akceptuj " + playerguild.name.toLowerCase());
@@ -302,8 +307,8 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
-                    if(!ZGuild.PM.get(arg2).invites.contains(playerguild.name)){
-                        ZGuild.PM.get(arg2).invites.remove(playerguild.name);
+                    if(!plugin.PM.get(arg2).invites.contains(playerguild.name)){
+                        plugin.PM.get(arg2).invites.remove(playerguild.name);
                         p.sendMessage(prefix + "Zaproszenie gracza " + ChatColor.WHITE + arg2 + "zostało anulowane.");
                         idpl.sendMessage(prefix + "Zaproszenie do gildi " + guildcolor + playerguild.name + ChatColor.GRAY + " anulowane.");
                     }
@@ -330,11 +335,11 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie znaleziono takiego zaproszenia.");
                         break;
                     }
-                    ZGuild.PM.get(playername).guild = arg2.toUpperCase();
-                    ZGuild.PM.get(playername).invites.clear();
-                    p.sendMessage(prefix + "Dołączyłeś do gildi " + ZGuild.GM.getColor(ZGuild.GM.get(arg2.toUpperCase()).color) + arg2.toUpperCase());
-                    ZGuild.GM.get(arg2).members.add(playername);
-                    Bukkit.getPlayer(ZGuild.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
+                    plugin.PM.get(playername).guild = arg2.toUpperCase();
+                    plugin.PM.get(playername).invites.clear();
+                    p.sendMessage(prefix + "Dołączyłeś do gildi " + plugin.GM.getColor(plugin.GM.get(arg2.toUpperCase()).color) + arg2.toUpperCase());
+                    plugin.GM.get(arg2).members.add(playername);
+                    Bukkit.getPlayer(plugin.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
 
                     break;
                 case "opusc":
@@ -357,12 +362,12 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Opuściłeś gildie " + guildcolor + playerdata.guild);
 
                         if(playerisoficer){
-                            ZGuild.GM.get(playerdata.guild).oficers.remove(playername);
+                            plugin.GM.get(playerdata.guild).oficers.remove(playername);
                         }
                         else {
-                            ZGuild.GM.get(playerdata.guild).members.remove(playername);
+                            plugin.GM.get(playerdata.guild).members.remove(playername);
                         }
-                        ZGuild.PM.get(playername).guild = "";
+                        plugin.PM.get(playername).guild = "";
                     }
 
                     break;
@@ -396,8 +401,8 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     if(playerguild.members.contains(arg2)){
-                        ZGuild.GM.get(playerdata.guild).members.remove(arg2);
-                        ZGuild.PM.get(arg2).guild = "";
+                        plugin.GM.get(playerdata.guild).members.remove(arg2);
+                        plugin.PM.get(arg2).guild = "";
                         p.sendMessage(prefix + "Gracz " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " został wyrzucowny z gildi");
                         kpl.sendMessage(prefix + "Zostałeś wyrzucony z gildi przez " + ChatColor.WHITE + playername);
                     }
@@ -423,19 +428,19 @@ public class CommandHandler implements CommandExecutor {
                         for(String member : playerguild.members){
                             // kick players
                             Bukkit.getPlayer(member).sendMessage(prefix + playername + " rozwiązał gildię " + guildcolor + playerdata.guild);
-                            ZGuild.PM.get(member).guild = "";
+                            plugin.PM.get(member).guild = "";
                         }
                         for(String oficer : playerguild.oficers){
                             // kick oficers
                             Bukkit.getPlayer(oficer).sendMessage(prefix + playername + " rozwiązał gildię " + guildcolor + playerdata.guild);
-                            ZGuild.PM.get(oficer).guild = "";
+                            plugin.PM.get(oficer).guild = "";
                         }
 
                         Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " rozwiązał gildie " + guildcolor + playerdata.guild);
 
-                        ZGuild.PM.get(playername).guild = "";
+                        plugin.PM.get(playername).guild = "";
                         p.sendMessage(prefix + "Gildia została rozwiązana.");
-                        ZGuild.GM.removeGuild(playerdata.guild);
+                        plugin.GM.removeGuild(playerdata.guild);
                         //todo send members message guild was deleted
                         break;
                     }

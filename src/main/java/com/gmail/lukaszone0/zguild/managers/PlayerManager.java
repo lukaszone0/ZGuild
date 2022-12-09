@@ -1,5 +1,6 @@
 package com.gmail.lukaszone0.zguild.managers;
 
+import com.gmail.lukaszone0.zguild.ZGuild;
 import com.gmail.lukaszone0.zguild.interfaces.IPlayer;
 import org.bukkit.Bukkit;
 
@@ -7,8 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerManager {
+
+    private ZGuild plugin;
     private final Map<String, IPlayer> playersDB = new HashMap<>();
 
+    public PlayerManager(ZGuild pl){
+        plugin = pl;
+    }
     public IPlayer get(String playername){
         if(!playersDB.containsKey(playername.toLowerCase())){
             joinPlayer(playername);

@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ZGuild extends JavaPlugin implements Listener {
     public static ZGuild instance;
     public static String prefix;
-    public static PlayerManager PM = new PlayerManager();
-    public static GuildManager GM = new GuildManager();
+    public PlayerManager PM = new PlayerManager(this);
+    public GuildManager GM = new GuildManager(this);
 
     public static ConfigManager config;
 
@@ -25,9 +25,9 @@ public class ZGuild extends JavaPlugin implements Listener {
         // Plugin startup logic
         instance = this;
 
-        getCommand("g").setExecutor(new CommandHandler());
-        getCommand("gildia").setExecutor(new CommandHandler());
-        getCommand("guild").setExecutor(new CommandHandler());
+        getCommand("g").setExecutor(new CommandHandler(this));
+        getCommand("gildia").setExecutor(new CommandHandler(this));
+        getCommand("guild").setExecutor(new CommandHandler(this));
 
         PluginManager pm = Bukkit.getPluginManager();
 
@@ -48,9 +48,9 @@ public class ZGuild extends JavaPlugin implements Listener {
         pm.addPermission(new Permission("guild.nowyprzywodca"));
         pm.addPermission(new Permission("guild.wplac"));
 
-        getServer().getPluginManager().registerEvents(new onJoin(), this);
-        getServer().getPluginManager().registerEvents(new onQuit(), this);
-        getServer().getPluginManager().registerEvents(new onChat(), this);
+        getServer().getPluginManager().registerEvents(new onJoin(this), this);
+        getServer().getPluginManager().registerEvents(new onQuit(this), this);
+        getServer().getPluginManager().registerEvents(new onChat(this), this);
 
         saveDefaultConfig();
 
