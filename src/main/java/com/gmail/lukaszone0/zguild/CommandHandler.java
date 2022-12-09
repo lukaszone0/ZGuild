@@ -27,13 +27,6 @@ public class CommandHandler implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("g") || cmd.getName().equalsIgnoreCase("guild") || cmd.getName().equalsIgnoreCase("gildia")) {
 
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(prefix + "Nie jesteś graczem.");
-                return true;
-            }
-
-            final Player p = (Player) sender;
-            final String playername = p.getName();
 
             String[] arg = new String[3];
 
@@ -56,6 +49,17 @@ public class CommandHandler implements CommandExecutor {
             if(arg1.isBlank()){
                 arg1 = "help";
             }
+
+            if (!(sender instanceof Player)) {
+                if(arg1.equalsIgnoreCase("save")){
+                    plugin.PM.savePlayers();
+                    plugin.GM.saveGuilds();
+                }
+                return true;
+            }
+
+            final Player p = (Player) sender;
+            final String playername = p.getName();
 
             if (!p.hasPermission("guild." + arg1.toLowerCase())) {
                 p.sendMessage(plugin.prefix + "Brak uprawnień.");
@@ -274,6 +278,11 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
+                    if(playerguild.members.contains(arg2) || playerguild.oficers.contains(arg2) || playerguild.king.equalsIgnoreCase(arg2)){
+                        p.sendMessage(prefix + "Ten gracz jest już w twojej gildi.");
+                        break;
+                    }
+
                     if(!plugin.PM.get(arg2).invites.contains(playerguild.name)){
                         plugin.PM.get(arg2).invites.add(playerguild.name);
                         p.sendMessage(prefix + "Zaproszenie do " + ChatColor.WHITE + arg2 + ChatColor.GRAY + " zostało wysłane.");
@@ -319,9 +328,11 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Nie posiadasz zaproszeń do gildi.");
                     }
 
-                    p.sendMessage(ChatColor.DARK_GRAY + "[--------[LISTA ZAPROSZEŃ]--------]");
+                    p.sendMessage(ChatColor.DARK_GRAY + "[---------------------------------]");
+                    p.sendMessage(ChatColor.DARK_GRAY + "[---------[" + ChatColor.GRAY + "LISTA ZAPROSZEŃ" + ChatColor.DARK_GRAY + "]---------]");
+                    p.sendMessage(ChatColor.DARK_GRAY + "[---------------------------------]");
                     for (String g : playerdata.invites) {
-                        p.sendMessage(ChatColor.DARK_GRAY + "Zaprasza cię gildia: " + ChatColor.WHITE + "" + g);
+                        p.sendMessage(ChatColor.GREEN + "● " + ChatColor.GRAY + "Zaprasza cię gildia: " + ChatColor.WHITE + "" + g);
                     }
                     p.sendMessage(ChatColor.DARK_GRAY + "[---------------------------------]");
 
@@ -337,7 +348,7 @@ public class CommandHandler implements CommandExecutor {
                     }
                     plugin.PM.get(playername).guild = arg2.toUpperCase();
                     plugin.PM.get(playername).invites.clear();
-                    p.sendMessage(prefix + "Dołączyłeś do gildi " + plugin.GM.getColor(plugin.GM.get(arg2.toUpperCase()).color) + arg2.toUpperCase());
+                    p.sendMessage(prefix + "Dołączyłeś do gildi " + arg2.toUpperCase());
                     plugin.GM.get(arg2).members.add(playername);
                     Bukkit.getPlayer(plugin.GM.get(arg2).king).sendMessage(prefix + playername + " zaakceptował zaproszenie.");
 
@@ -440,7 +451,7 @@ public class CommandHandler implements CommandExecutor {
 
                         plugin.PM.get(playername).guild = "";
                         p.sendMessage(prefix + "Gildia została rozwiązana.");
-                        plugin.GM.removeGuild(playerdata.guild);
+                        plugin.GM.removeGuild(playerguild.name);
                         //todo send members message guild was deleted
                         break;
                     }

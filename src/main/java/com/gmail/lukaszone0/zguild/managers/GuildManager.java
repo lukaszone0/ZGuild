@@ -20,32 +20,22 @@ public class GuildManager extends YamlConfiguration {
         this.plugin = pl;
         //todo load guilds from file HERE
         File folder = new File(plugin.getDataFolder() + "/guilds");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 try {
                     Yaml guildyaml = new Yaml(new Constructor(IGuild.class));
-                    IGuild guild = (IGuild) guildyaml.load(new FileInputStream(new File("guilds/" + listOfFiles[i].getName() + ".yml")));
+                    FileInputStream fis = new FileInputStream(new File("guilds/" + listOfFiles[i].getName() + ".yml"));
+                    IGuild guild = (IGuild) guildyaml.load(fis);
                     guildsDB.put(guild.name, guild);
                 }
                 catch (IOException ie){
                     Bukkit.getLogger().info("cant read guild file...");
                 }
-            }
-        }
-    }
-
-    public void saveGuilds(){
-        for(IGuild g : guildsDB.values()){
-            File path = new File("/guilds" + g.name.toLowerCase() + ".yml");
-            YamlConfiguration guild = new YamlConfiguration();
-            guild.set("/guilds", g);
-            try {
-                guild.save(path);
-            }
-            catch (IOException e){
-                Bukkit.getLogger().info("Cant save guild: " + g.name);
             }
         }
     }
@@ -136,18 +126,54 @@ public class GuildManager extends YamlConfiguration {
     public void addGuild(IGuild newguild) {
         newguild.name = newguild.name.toUpperCase();
         if(!guildsDB.containsKey(newguild.name)) {
+
+            File guildfile = new File(plugin.getDataFolder() + "/guilds/" + newguild.name.toLowerCase() + ".yml");
+            if(guildfile.exists()){
+                guildfile.delete();
+            }
+            try {
+                guildfile.createNewFile();
+            }
+            catch (IOException ie){
+                Bukkit.getLogger().info("Cant create guildfile: " + ie.getMessage());
+            }
+
             guildsDB.put(newguild.name, newguild);
-            //todo save guild to file HERE
         }
     }
     public void removeGuild(String name){
         name = name.toUpperCase();
         if(guildsDB.containsKey(name)){
             guildsDB.remove(name);
-            //todo delete guild file HERE
+            File guildfile = new File(plugin.getDataFolder() + "/guilds/" + name.toLowerCase() + ".yml");
+            if(guildfile.exists()){
+                guildfile.delete();
+            }
         }
     }
     public boolean guildExist(String name){
         return guildsDB.containsKey(name.toUpperCase());
+    }
+    public void saveGuilds(){
+        for(IGuild g : guildsDB.values()){
+
+            File guildfile = new File("plugins/ZGuild/guilds/" + g.name.toLowerCase() + ".yml");
+            if(!guildfile.exists()){
+                try {
+                    guildfile.createNewFile();
+                }
+                catch (IOException ie){
+                    Bukkit.getLogger().info("Cant create guildfile: " + ie.getMessage());
+                }
+            }
+            YamlConfiguration guild = new YamlConfiguration();
+            guild.set(guildfile.toString(), g);
+            try {
+                guild.save(guildfile);
+            }
+            catch (IOException e){
+                Bukkit.getLogger().info("Cant save guildfile: " + g.name);
+            }
+        }
     }
 }

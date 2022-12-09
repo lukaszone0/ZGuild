@@ -61,6 +61,7 @@ public class ZGuild extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
         GM.saveGuilds();
+        PM.savePlayers();
     }
 
     public void setup(){
