@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -50,10 +51,11 @@ public class CommandHandler implements CommandExecutor {
                 arg1 = "help";
             }
 
-            if (!(sender instanceof Player)) {
+            if (sender instanceof ConsoleCommandSender) {
                 if(arg1.equalsIgnoreCase("save")){
                     plugin.PM.savePlayers();
                     plugin.GM.saveGuilds();
+                    Bukkit.getLogger().info("Saving config. ok");
                 }
                 return true;
             }
