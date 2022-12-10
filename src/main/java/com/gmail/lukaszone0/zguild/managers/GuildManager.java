@@ -18,26 +18,28 @@ public class GuildManager extends YamlConfiguration {
     private ZGuild plugin;
     public GuildManager(ZGuild pl){
         this.plugin = pl;
-        //todo load guilds from file HERE
         File folder = new File(plugin.getDataFolder() + "/guilds");
-        if(!folder.exists()){
-            folder.mkdir();
-        }
-        File[] listOfFiles = folder.listFiles();
+        if(folder.exists()){
+            File[] listOfFiles = folder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                try {
-                    Yaml guildyaml = new Yaml(new Constructor(IGuild.class));
-                    FileInputStream fis = new FileInputStream(new File("guilds/" + listOfFiles[i].getName() + ".yml"));
-                    IGuild guild = (IGuild) guildyaml.load(fis);
-                    guildsDB.put(guild.name, guild);
-                }
-                catch (IOException ie){
-                    Bukkit.getLogger().info("cant read guild file...");
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile()) {
+                    try {
+                        Yaml guildyaml = new Yaml(new Constructor(IGuild.class));
+                        FileInputStream fis = new FileInputStream(new File("guilds/" + listOfFiles[i].getName() + ".yml"));
+                        IGuild guild = (IGuild) guildyaml.load(fis);
+                        guildsDB.put(guild.name, guild);
+                    }
+                    catch (IOException ie){
+                        Bukkit.getLogger().info("cant read guild file...");
+                    }
                 }
             }
         }
+        else{
+            folder.mkdir();
+        }
+
     }
 
     public int guildsCount(){
@@ -124,8 +126,7 @@ public class GuildManager extends YamlConfiguration {
         return new IGuild("", "");
     }
     public void addGuild(IGuild newguild) {
-        newguild.name = newguild.name.toUpperCase();
-        if(!guildsDB.containsKey(newguild.name)) {
+        if(!guildsDB.containsKey(newguild.name.toLowerCase())) {
 
             File guildfile = new File(plugin.getDataFolder() + "/guilds/" + newguild.name.toLowerCase() + ".yml");
             if(guildfile.exists()){

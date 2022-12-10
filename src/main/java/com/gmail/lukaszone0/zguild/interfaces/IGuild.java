@@ -16,7 +16,7 @@ public class IGuild {
     public int slot = 10;
 
     public IGuild(String name, String kingname){
-        this.name = name.toUpperCase();
+        this.name = name;
         this.king = kingname;
     }
 

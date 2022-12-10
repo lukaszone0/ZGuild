@@ -246,14 +246,14 @@ public class CommandHandler implements CommandExecutor {
                         p.sendMessage(prefix + "Koszt założenia gildi to " + ChatColor.GOLD + cost);
                         break;
                     }
-
+                    arg2 = arg2.toUpperCase();
                     IGuild newguild = new IGuild(arg2, playername);
                     newguild.money = ZGuild.config.getInt("guild_money_start");
                     newguild.slot = ZGuild.config.getInt("guild_slot_start");
                     plugin.GM.addGuild(newguild);
-                    plugin.PM.get(playername).guild = arg2.toUpperCase();
+                    plugin.PM.get(playername).guild = arg2;
                     p.sendMessage(prefix + "Gildia " + guildcolor + arg2 + ChatColor.GRAY + " została utworzona.");
-                    Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " założył gildie " + guildcolor + newguild.name);
+                    Bukkit.broadcastMessage(ChatColor.WHITE + playername + ChatColor.GRAY + " założył gildie " + guildcolor + arg2);
 
                     break;
                 case "zapros":

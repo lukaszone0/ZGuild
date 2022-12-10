@@ -1,10 +1,8 @@
 package com.gmail.lukaszone0.zguild.managers;
 
 import com.gmail.lukaszone0.zguild.ZGuild;
-import com.gmail.lukaszone0.zguild.interfaces.IGuild;
 import com.gmail.lukaszone0.zguild.interfaces.IPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -49,7 +47,7 @@ public class PlayerManager {
     public boolean quitPlayer(String playername){
         if(playersDB.containsKey(playername.toLowerCase())){
             if(!playersDB.get(playername).guild.isBlank()){
-                File playerfile = new File("plugins/ZGuild/players/" + playername.toLowerCase() + ".yml");
+                File playerfile = new File(plugin.getDataFolder() + "/players/" + playername.toLowerCase() + ".yml");
                 if(!playerfile.exists()){
                     try {
                         playerfile.createNewFile();
